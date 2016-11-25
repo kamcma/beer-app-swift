@@ -16,11 +16,11 @@ drop.get("version") {request in
 }
 
 drop.get("breweries") { request in
-
+    return "Not yet implemented"
 }
 
 drop.get("beers") { request in
-
+    return "Not yet implemented"
 }
 
 drop.run()
