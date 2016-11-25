@@ -32,6 +32,6 @@ final class Brewery: Model {
     }
 
     static func revert (_ database: Database) throws {
-        try database.delete("breweries")
+        try database.delete("brewerys")
     }
 }
