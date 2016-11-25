@@ -26,9 +26,9 @@ final class Beer: Model {
     }
 
     static func prepare (_ database: Database) throws {
-        try database.create("beers") { users in
-            users.id()
-            users.string("name")
+        try database.create("beers") { beers in
+            beers.id()
+            beers.string("name")
         }
     }
 
