@@ -4,7 +4,6 @@ import VaporMemory
 
 let drop = Droplet(
     preparations: [Brewery.self, Beer.self],
-    providers: [VaporPostgreSQL.Provider.self]
 )
 
 if drop.environment == .production {
