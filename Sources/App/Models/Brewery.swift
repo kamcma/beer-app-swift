@@ -4,6 +4,7 @@ import Fluent
 final class Brewery: Model {
     var id: Node?
     var exists: Bool = false
+    static var entity = "breweries"
 
     var name: String
 
@@ -25,13 +26,21 @@ final class Brewery: Model {
     }
 
     static func prepare (_ database: Database) throws {
-        try database.create("brewerys") { brewerys in
+        try database.create(entity) { brewerys in
             brewerys.id()
             brewerys.string("name")
         }
     }
 
     static func revert (_ database: Database) throws {
-        try database.delete("brewerys")
+        try database.delete(entity)
+    }
+}
+
+//convenience methods
+
+extension Brewery {
+    func beers() throws -> Children<Brewery> {
+        return try children()
     }
 }
