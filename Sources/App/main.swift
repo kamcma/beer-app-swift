@@ -1,22 +1,17 @@
 import Vapor
 import VaporPostgreSQL
-import VaporMemory
 
 let drop = Droplet()
 
-if drop.environment == .production {
-    try drop.addProvider(VaporPostgreSQL.Provider.self)
-} else {
-    try drop.addProvider(VaporMemory.Provider.self)
-}
+try drop.addProvider(VaporPostgreSQL.Provider.self)
 
 drop.preparations = [Brewery.self]
 
-drop.get("breweries") { request in
+drop.get("breweries") { _ in
     return try JSON(node: Brewery.query().sort("name", .ascending).all().makeNode())
 }
 
-drop.get("beers") {request in
+drop.get("beers") { _ in
     return try JSON(node: Beer.query().sort("name", .ascending).all().makeNode())
 }
 
