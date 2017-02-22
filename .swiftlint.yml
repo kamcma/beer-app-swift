@@ -1,2 +1,4 @@
 included:
   - Sources
+disabled_rules:
+  - variable_name
