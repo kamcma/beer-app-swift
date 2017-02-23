@@ -1,0 +1,18 @@
+#extend("base")
+
+#export("head") {
+    <title>Login</title>
+}
+
+#export("body") {
+    <form action="/login" method="post">
+        <fieldset>
+            <label>Email</label>
+            <input name="email" type="email" />
+            <label>Password</label>
+            <input name="password" type="password" />
+            <input type="submit" value="Login" />
+        </fieldset>
+        <p>Need an account? <a href="/register">Register</a></p>
+    </form>
+}
