@@ -11,7 +11,6 @@ let package = Package(
         "Deploy",
         "Public",
         "Resources",
-        "Tests",
         "Database"
     ]
 )
