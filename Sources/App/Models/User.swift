@@ -6,12 +6,14 @@ import TurnstileCrypto
 final class User: Model {
     var exists: Bool = false
     var id: Node?
-    var name: Valid<NameValidator>
+    var firstName: Valid<NameValidator>
+    var lastName: Valid<NameValidator>
     var email: Valid<Email>
     var password: String
 
-    init (name: String, email: String, rawPassword: String) throws {
-        self.name = try name.validated()
+    init (firstName: String, lastName: String, email: String, rawPassword: String) throws {
+        self.firstName = try firstName.validated()
+        self.lastName = try lastName.validated()
         self.email = try email.validated()
         let validatedPassword: Valid<PasswordValidator> = try rawPassword.validated()
         self.password = BCrypt.hash(password: validatedPassword.value)
@@ -19,8 +21,10 @@ final class User: Model {
 
     init (node: Node, in context: Context) throws {
         id = node["id"]
-        let nameString = try node.extract("name") as String
-        name = try nameString.validated()
+        let firstNameString = try node.extract("first_name") as String
+        firstName = try firstNameString.validated()
+        let lastNameString = try node.extract("last_name") as String
+        lastName = try lastNameString.validated()
         let emailString = try node.extract("email") as String
         email = try emailString.validated()
         let passwordString = try node.extract("password") as String
@@ -30,7 +34,8 @@ final class User: Model {
     func makeNode(context: Context) throws -> Node {
         return try Node(node: [
             "id": id,
-            "name": name.value,
+            "first_name": firstName.value,
+            "last_name": lastName.value,
             "email": email.value,
             "password": password
         ])
@@ -39,7 +44,8 @@ final class User: Model {
     static func prepare(_ database: Database) throws {
         try database.create("users") {users in
             users.id()
-            users.string("name")
+            users.string("first_name")
+            users.string("last_name")
             users.string("email")
             users.string("password")
 
@@ -50,8 +56,8 @@ final class User: Model {
         try database.delete("users")
     }
 
-    static func register(name: String, email: String, rawPassword: String) throws -> User {
-        var newUser = try User(name: name, email: email, rawPassword: rawPassword)
+    static func register(firstName: String, lastName: String, email: String, rawPassword: String) throws -> User {
+        var newUser = try User(firstName: firstName, lastName: lastName, email: email, rawPassword: rawPassword)
         if try User.query().filter("email", newUser.email.value).first() == nil {
             try newUser.save()
             return newUser
