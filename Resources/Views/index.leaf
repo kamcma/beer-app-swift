@@ -1,0 +1,9 @@
+#extend("base")
+
+#export("head") {
+    <title>Homepage</title>
+}
+
+#export("body") {
+    <h1>Hello World</h1>
+}
