@@ -8,7 +8,7 @@
     <form action="/register" method="post">
         <fieldset>
             <label>Username</label>
-            <input name="username" />
+            <input name="username" type="text" />
             <label>Password</label>
             <input name="password" type="password" />
             <label>Reenter password</label>
