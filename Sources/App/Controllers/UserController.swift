@@ -1,12 +1,13 @@
 import Vapor
 import HTTP
 import VaporPostgreSQL
+import Turnstile
 
 final class UserController {
 
     func addRoutes(drop: Droplet) {
         drop.get("register", handler: registerView)
-        //drop.post("register", handler: nil)
+        drop.post("register", handler: register)
         drop.get("login", handler: loginView)
         //drop.post("login", handler: nil)
     }
@@ -19,8 +20,20 @@ final class UserController {
         return try drop.view.make("login")
     }
 
-    /*func register(request: Request) throws -> ResponseRepresentable {
-        throw 
-    }*/
+    func register(request: Request) throws -> ResponseRepresentable {
+        guard let username = request.formURLEncoded?["username"]?.string,
+            let password = request.formURLEncoded?["password"]?.string else {
+                return try drop.view.make("register")
+        }
+        let credentials = UsernamePassword(username: username, password: password)
+
+        do {
+            try _ = User.register(credentials: credentials)
+            try request.auth.login(credentials)
+            return Response(redirect: "/")
+        } catch {
+            return try drop.view.make("register")
+        }
+    }
 
 }
