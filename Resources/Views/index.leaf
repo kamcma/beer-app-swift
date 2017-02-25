@@ -5,5 +5,7 @@
 }
 
 #export("body") {
-    <h1>Hello World</h1>
+    <div class="container-fluid">
+        <h1>Hello World</h1>
+    </div>
 }

@@ -3,10 +3,17 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/styles/milligram.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
     #import("head")
 </head>
     <body>
+        <nav class="navbar navbar-inverse bg-inverse">
+            <a class="navbar-brand" href="/">Beer Rate</a>
+            <form class="form-inline">
+                <input class="form-control" type="text" placeholder="Beer ..." />
+                <button class="btn btn-secondary" type="submit">Search</button>
+            </form>
+        </nav>
         #import("body")
     </body>
 </html>

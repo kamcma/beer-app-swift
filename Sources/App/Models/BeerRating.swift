@@ -11,12 +11,14 @@ final class BeerRating: Model {
 
     init(stars: Int, userId: Node? = nil, beerId: Node? = nil) {
         self.id = nil
+        self.stars = stars
         self.userId = userId
         self.beerId = beerId
     }
 
     init(node: Node, in context: Context) throws {
         id = try node.extract("id")
+        stars = try node.extract("stars")
         userId = try node.extract("user_id")
         beerId = try node.extract("beer_id")
     }
@@ -24,17 +26,23 @@ final class BeerRating: Model {
     func makeNode(context: Context) throws -> Node {
         return try Node(node: [
             "id": id,
-            "user_id": user_id,
-            "beer_id": beer_id
+            "stars": stars,
+            "user_id": userId,
+            "beer_id": beerId
         ])
     }
 
-    static func prepare (_ database: database) throws {
+    static func prepare (_ database: Database) throws {
         try database.create(entity) { beerRatings in
             beerRatings.id()
+            beerRatings.int("stars")
             beerRatings.parent(User.self, optional: false)
             beerRatings.parent(Beer.self, optional: false)
         }
+    }
+
+    static func revert (_ database: Database) throws {
+        try database.delete(entity)
     }
 }
 
