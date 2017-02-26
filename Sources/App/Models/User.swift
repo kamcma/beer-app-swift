@@ -7,26 +7,34 @@ import Auth
 final class User: Auth.User {
     var exists: Bool = false
     var id: Node?
-    var username: String
+    var email: Valid<Email>
     var password: String
+    var firstName: String
+    var lastName: String
 
-    init (credentials: UsernamePassword) {
-        self.username = credentials.username
+    init (credentials: UsernamePassword, firstName: String, lastName: String) throws {
+        self.email = try credentials.username.validated()
         self.password = BCrypt.hash(password: credentials.password)
+        self.firstName = firstName
+        self.lastName = lastName
     }
 
     init (node: Node, in context: Context) throws {
         id = node["id"]
-        username = try node.extract("username") as String
+        let emailString = try node.extract("email") as String
+        email = try emailString.validated()
         password = try node.extract("password") as String
-
+        firstName = try node.extract("first_name") as String
+        lastName = try node.extract("last_name") as String
     }
 
     func makeNode(context: Context) throws -> Node {
         return try Node(node: [
             "id": id,
-            "username": username,
-            "password": password
+            "email": email.value,
+            "password": password,
+            "first_name": firstName,
+            "last_name": lastName
         ])
     }
 
@@ -36,7 +44,7 @@ final class User: Auth.User {
         switch credentials {
         case let credentials as UsernamePassword:
             let fetchedUser = try User.query()
-                .filter("username", credentials.username).first()
+                .filter("email", credentials.username).first()
             if let password = fetchedUser?.password, password != "",
                 (try? BCrypt.verify(password: credentials.password, matchesHash: password)) == true {
                 user = fetchedUser
@@ -55,16 +63,20 @@ final class User: Auth.User {
     }
 
     static func register(credentials: Credentials) throws -> Auth.User {
+        throw Abort.badRequest
+    }
+
+    static func register(credentials: Credentials, firstName: String, lastName: String) throws -> Auth.User {
         var newUser: User
 
         switch credentials {
         case let credentials as UsernamePassword:
-            newUser = User(credentials: credentials)
+            newUser = try User(credentials: credentials, firstName: firstName, lastName: lastName)
         default:
             throw UnsupportedCredentialsError()
         }
 
-        if try User.query().filter("username", newUser.username).first() == nil {
+        if try User.query().filter("email", newUser.email.value).first() == nil {
             try newUser.save()
             return newUser
         } else {
@@ -75,8 +87,10 @@ final class User: Auth.User {
     static func prepare(_ database: Database) throws {
         try database.create("users") {users in
             users.id()
-            users.string("username")
+            users.string("email")
             users.string("password")
+            users.string("first_name")
+            users.string("last_name")
         }
     }
 

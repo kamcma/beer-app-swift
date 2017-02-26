@@ -5,16 +5,36 @@
 }
 
 #export("body") {
-    <form action="/register" method="post">
-        <fieldset>
-            <label>Username</label>
-            <input name="username" type="text" />
-            <label>Password</label>
-            <input name="password" type="password" />
-            <label>Reenter password</label>
-            <input name="password2" type="password" />
-            <input type="submit" value="Register" />
-        </fieldset>
-        <p>Already have an account? <a href="/login">Login</a></p>
-    </form>
+    <div class="container">
+        <div class="row">
+            <h4 class>Register</h4>
+        </div>
+        <div class="row">
+            <form class="col-lg-4" action="/register" method="post">
+                <fieldset>
+                    <div class="form-group">
+                        <input class="form-control" name="first-name" type="text" placeholder="First name" />
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" name="last-name" type="text" placeholder="Last name" />
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" name="email" type="email" placeholder="Email" />
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" name="password" type="password" placeholder="Password" />
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" name="password2" type="password" placeholder="Reenter password" />
+                    </div>
+                    <div class="form-group">
+                        <input class="btn btn-default" type="submit" value="Register" />
+                    </div>
+                </fieldset>
+            </form>
+        </row>
+        <row>
+            <a class="col-xs-12" href="/login">Already have an account?</a>
+        </row>
+    </div>
 }

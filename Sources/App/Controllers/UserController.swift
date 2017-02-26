@@ -21,14 +21,18 @@ final class UserController {
     }
 
     func register(request: Request) throws -> ResponseRepresentable {
-        guard let username = request.formURLEncoded?["username"]?.string,
-            let password = request.formURLEncoded?["password"]?.string else {
+        guard let email = request.formURLEncoded?["email"]?.string,
+            let password = request.formURLEncoded?["password"]?.string,
+            let password2 = request.formURLEncoded?["password2"]?.string,
+            let firstName = request.formURLEncoded?["first-name"]?.string,
+            let lastName = request.formURLEncoded?["last-name"]?.string,
+            password == password2 else {
                 return try drop.view.make("register")
         }
-        let credentials = UsernamePassword(username: username, password: password)
+        let credentials = UsernamePassword(username: email, password: password)
 
         do {
-            try _ = User.register(credentials: credentials)
+            try _ = User.register(credentials: credentials, firstName: firstName, lastName: lastName)
             try request.auth.login(credentials)
             return Response(redirect: "/")
         } catch {
