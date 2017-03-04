@@ -3,7 +3,13 @@ import HTTP
 import VaporPostgreSQL
 
 final class AdminController {
-    func addRoutes(drop: Droplet) {
+    let drop: Droplet
+
+    init(drop: Droplet) {
+        self.drop = drop
+    }
+
+    func addRoutes() {
         drop.get("db", handler: testDbConnection)
     }
 
