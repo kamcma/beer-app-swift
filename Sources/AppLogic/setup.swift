@@ -10,6 +10,7 @@ public func setup(_ drop: Droplet) throws {
 
     AdminController(drop: drop).addRoutes()
     UserController(drop: drop).addRoutes()
+    BreweryController(drop: drop).addRoutes()
 
     drop.get("/") { _ in
         return try drop.view.make("index")

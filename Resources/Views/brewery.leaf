@@ -1,0 +1,11 @@
+#extend("base")
+
+#export("head") {
+    <title>#(brewery)</title>
+}
+
+#export("body") {
+    <div class="container">
+        <h1>#(brewery)</h1>
+    </div>
+}
