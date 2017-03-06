@@ -46,6 +46,6 @@ final class Brewery: Model {
 
 extension Brewery {
     func beers() throws -> Children<Brewery> {
-        return children()
+        return try children()
     }
 }
