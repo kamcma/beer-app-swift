@@ -6,25 +6,33 @@ final class Beer: Model {
     var exists: Bool = false
 
     var name: String
+    var slug: String
     var breweryId: Node?
+    var abv: Double
 
-    init(name: String, breweryId: Node? = nil) {
+    init(name: String, slug: String, breweryId: Node? = nil, abv: Double) {
         self.id = nil
         self.name = name
+        self.slug = slug
         self.breweryId = breweryId
+        self.abv = abv
     }
 
     init(node: Node, in context: Context) throws {
         id = try node.extract("id")
         name = try node.extract("name")
+        slug = try node.extract("slug")
         breweryId = try node.extract("brewery_id")
+        abv = try node.extract("abv")
     }
 
     func makeNode(context: Context) throws -> Node {
         return try Node(node: [
             "id": id,
             "name": name,
-            "brewery_id": breweryId
+            "slug": slug,
+            "brewery_id": breweryId,
+            "abv": abv
         ])
     }
 
@@ -32,7 +40,9 @@ final class Beer: Model {
         try database.create(entity) { beers in
             beers.id()
             beers.string("name")
+            beers.string("slug")
             beers.parent(Brewery.self, optional: false)
+            beers.double("abv")
         }
     }
 

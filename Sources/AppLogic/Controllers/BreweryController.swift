@@ -10,14 +10,28 @@ final class BreweryController {
 
     func addRoutes() {
         drop.get(String.self, handler: breweryView)
+        drop.get(String.self, String.self, handler: beerView)
     }
 
-    func breweryView(request: Request, slug: String) throws -> ResponseRepresentable {
-        guard let brewery = try Brewery.query().filter("slug", slug).first() else {
+    func breweryView(request: Request, brewerySlug: String) throws -> ResponseRepresentable {
+        guard let brewery = try Brewery.query().filter("slug", brewerySlug).first() else {
             throw Abort.notFound
         }
         return try drop.view.make("brewery", [
             "brewery": brewery.name
+        ])
+    }
+
+    func beerView(request: Request, brewerySlug: String, beerSlug: String) throws -> ResponseRepresentable {
+        guard let brewery = try Brewery.query().filter("slug", brewerySlug).first(),
+            let beer = try Beer.query().filter("slug", beerSlug).first() else {
+                throw Abort.notFound
+            }
+
+        return try drop.view.make("beer", [
+            "brewery": brewery.name,
+            "brewerySlug": brewery.slug,
+            "beer": beer.name
         ])
     }
 }

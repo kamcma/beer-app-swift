@@ -1,0 +1,12 @@
+#extend("base")
+
+#export("head") {
+    <title>#(brewery) #(beer)</title>
+}
+
+#export("body") {
+    <div class="container">
+        <h1>#(brewery) #(beer)</h1>
+        <a href="/#(brewerySlug)">Back to brewery page</a>
+    </div>
+}
