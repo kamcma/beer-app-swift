@@ -24,7 +24,7 @@ final class BreweryController {
 
     func beerView(request: Request, brewerySlug: String, beerSlug: String) throws -> ResponseRepresentable {
         guard let brewery = try Brewery.query().filter("slug", brewerySlug).first(),
-            let beer = try Beer.query().filter("slug", beerSlug).first() else {
+            let beer = try brewery.beers().filter("slug", beerSlug).first() else {
                 throw Abort.notFound
             }
 
