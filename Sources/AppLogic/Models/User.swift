@@ -85,16 +85,10 @@ final class User: Auth.User {
     }
 
     static func prepare(_ database: Database) throws {
-        try database.create("users") {users in
-            users.id()
-            users.string("email")
-            users.string("password")
-            users.string("first_name")
-            users.string("last_name")
-        }
+        throw Abort.badRequest
     }
 
     static func revert(_ database: Database) throws {
-        try database.delete("users")
+        throw Abort.badRequest
     }
 }

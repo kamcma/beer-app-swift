@@ -37,17 +37,11 @@ final class Beer: Model {
     }
 
     static func prepare (_ database: Database) throws {
-        try database.create(entity) { beers in
-            beers.id()
-            beers.string("name")
-            beers.string("slug")
-            beers.parent(Brewery.self, optional: false)
-            beers.double("abv")
-        }
+        throw Abort.badRequest
     }
 
     static func revert (_ database: Database) throws {
-        try database.delete(entity)
+        throw Abort.badRequest
     }
 }
 

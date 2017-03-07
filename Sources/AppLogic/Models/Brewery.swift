@@ -30,15 +30,11 @@ final class Brewery: Model {
     }
 
     static func prepare (_ database: Database) throws {
-        try database.create(entity) { breweries in
-            breweries.id()
-            breweries.string("name")
-            breweries.string("slug")
-        }
+        throw Abort.badRequest
     }
 
     static func revert (_ database: Database) throws {
-        try database.delete(entity)
+        throw Abort.badRequest
     }
 }
 
