@@ -1,12 +1,13 @@
 import Fluent
 import VaporPostgreSQL
 
-struct MigrationZero: Preparation {
+struct M20170307185700InitialMigration: Preparation {
     static func prepare(_ database: Database) throws {
         try database.create(Brewery.entity) { breweries in
             breweries.id()
             breweries.string("name", optional: false)
             breweries.string("slug", optional: false)
+            //breweries.int("country", optional: false)
         }
         try database.create(Beer.entity) { beers in
             beers.id()
