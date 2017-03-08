@@ -36,13 +36,9 @@ final class Beer: Model {
         ])
     }
 
-    static func prepare (_ database: Database) throws {
-        throw Abort.badRequest
-    }
+    static func prepare (_ database: Database) throws { }
 
-    static func revert (_ database: Database) throws {
-        throw Abort.badRequest
-    }
+    static func revert (_ database: Database) throws { }
 }
 
 //convenience methods
