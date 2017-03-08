@@ -1,4 +1,6 @@
 included:
   - Sources
+  - Tests
 disabled_rules:
   - variable_name
+  
