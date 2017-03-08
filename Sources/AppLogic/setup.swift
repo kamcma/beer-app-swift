@@ -5,7 +5,7 @@ import Auth
 public func setup(_ drop: Droplet) throws {
     try drop.addProvider(VaporPostgreSQL.Provider.self)
     drop.preparations = [M20170307185700InitialMigration.self]
-    drop.commands.append(Seed(console: drop.console))
+    //drop.commands.append(Seed(console: drop.console))
 
     drop.middleware.append(AuthMiddleware(user: User.self))
 
