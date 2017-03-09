@@ -7,7 +7,7 @@ struct M20170307185700InitialMigration: Preparation {
             breweries.id()
             breweries.string("name", optional: false)
             breweries.string("slug", optional: false)
-            //breweries.int("country", optional: false)
+            breweries.int("country", optional: false)
         }
         try database.create(Beer.entity) { beers in
             beers.id()
@@ -16,6 +16,10 @@ struct M20170307185700InitialMigration: Preparation {
             beers.parent(Brewery.self, optional: false)
             beers.double("abv")
         }
+        try database.driver.raw("ALTER TABLE \"public\".\"beers\" "
+            + "ADD FOREIGN KEY (\"brewery_id\") "
+            + "REFERENCES \"public\".\"breweries\"(\"id\") "
+            + "ON DELETE CASCADE ON UPDATE CASCADE;")
         try database.create(User.entity) {users in
             users.id()
             users.string("email")
@@ -29,12 +33,20 @@ struct M20170307185700InitialMigration: Preparation {
             beerRatings.parent(User.self, optional: false)
             beerRatings.parent(Beer.self, optional: false)
         }
+        try database.driver.raw("ALTER TABLE \"public\".\"beerratings\" "
+            + "ADD FOREIGN KEY (\"user_id\") "
+            + "REFERENCES \"public\".\"users\"(\"id\") "
+            + "ON DELETE CASCADE ON UPDATE CASCADE;")
+        try database.driver.raw("ALTER TABLE \"public\".\"beerratings\" "
+            + "ADD FOREIGN KEY (\"beer_id\") "
+            + "REFERENCES \"public\".\"beers\"(\"id\") "
+            + "ON DELETE CASCADE ON UPDATE CASCADE;")
     }
 
     static func revert(_ database: Database) throws {
         try database.delete(BeerRating.entity)
-        try database.delete(User.entity)
         try database.delete(Beer.entity)
         try database.delete(Brewery.entity)
+        try database.delete(User.entity)
     }
 }
