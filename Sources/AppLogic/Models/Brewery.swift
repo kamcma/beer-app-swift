@@ -8,24 +8,28 @@ final class Brewery: Model {
 
     var name: String
     var slug: String
+    var country: Country
 
-    init(name: String, slug: String) {
+    init(name: String, slug: String, country: Country) {
         self.id = nil
         self.name = name
         self.slug = slug.lowercased()
+        self.country = country
     }
 
     init(node: Node, in context: Context) throws {
         id = try node.extract("id")
         name = try node.extract("name")
         slug = try node.extract("slug")
+        country = try Country(rawValue: node.extract("country"))!
     }
 
     func makeNode(context: Context) throws -> Node {
         return try Node(node: [
             "id": id,
             "name": name,
-            "slug": slug
+            "slug": slug,
+            "country": country.rawValue
         ])
     }
 
