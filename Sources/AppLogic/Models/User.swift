@@ -66,7 +66,9 @@ final class User: Auth.User {
         }
     }
 
-    static func register(credentials: Credentials) throws -> Auth.User { }
+    static func register(credentials: Credentials) throws -> Auth.User {
+        throw Abort.badRequest
+    }
 
     static func register(credentials: Credentials, firstName: String, lastName: String) throws -> Auth.User {
         var newUser: User
