@@ -41,7 +41,7 @@ final class Brewery: Model {
 //convenience methods
 
 extension Brewery {
-    func beers() throws -> Children<Beer> {
+    func beers() -> Children<Beer> {
         return children()
     }
 }
