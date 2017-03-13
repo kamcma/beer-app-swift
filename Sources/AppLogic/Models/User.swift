@@ -11,12 +11,14 @@ final class User: Auth.User {
     var password: String
     var firstName: String
     var lastName: String
+    var admin: Bool
 
-    init (credentials: UsernamePassword, firstName: String, lastName: String) throws {
+    init (credentials: UsernamePassword, firstName: String, lastName: String, admin: Bool = false) throws {
         self.email = try credentials.username.validated()
         self.password = BCrypt.hash(password: credentials.password)
         self.firstName = firstName
         self.lastName = lastName
+        self.admin = admin
     }
 
     init (node: Node, in context: Context) throws {
@@ -26,6 +28,7 @@ final class User: Auth.User {
         password = try node.extract("password") as String
         firstName = try node.extract("first_name") as String
         lastName = try node.extract("last_name") as String
+        admin = try node.extract("admin") as Bool
     }
 
     func makeNode(context: Context) throws -> Node {
@@ -34,7 +37,8 @@ final class User: Auth.User {
             "email": email.value,
             "password": password,
             "first_name": firstName,
-            "last_name": lastName
+            "last_name": lastName,
+            "admin": admin
         ])
     }
 
@@ -62,9 +66,7 @@ final class User: Auth.User {
         }
     }
 
-    static func register(credentials: Credentials) throws -> Auth.User {
-        throw Abort.badRequest
-    }
+    static func register(credentials: Credentials) throws -> Auth.User { }
 
     static func register(credentials: Credentials, firstName: String, lastName: String) throws -> Auth.User {
         var newUser: User

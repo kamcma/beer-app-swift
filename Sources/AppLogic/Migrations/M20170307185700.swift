@@ -26,6 +26,7 @@ struct M20170307185700InitialMigration: Preparation {
             users.string("password")
             users.string("first_name")
             users.string("last_name")
+            users.bool("admin")
         }
         try database.create(BeerRating.entity) { beerRatings in
             beerRatings.id()
