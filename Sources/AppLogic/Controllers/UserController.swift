@@ -16,7 +16,8 @@ final class UserController {
         drop.post("register", handler: register)
         drop.get("login", handler: loginView)
         drop.post("login", handler: login)
-        drop.post("logout", handler: logout)
+        drop.get("account", handler: accountView)
+        drop.get("logout", handler: logout)
     }
 
     func registerView(request: Request) throws -> ResponseRepresentable {
@@ -41,7 +42,7 @@ final class UserController {
         do {
             try _ = User.register(credentials: credentials, firstName: firstName, lastName: lastName)
             try request.auth.login(credentials)
-            return Response(redirect: "/")
+            return Response(redirect: "/account")
         } catch {
             return try drop.view.make("register")
         }
@@ -57,14 +58,25 @@ final class UserController {
 
         do {
             try request.auth.login(credentials)
-            return Response(redirect: "/")
+            return Response(redirect: "/account")
         } catch {
             return try drop.view.make("login", ["error": "Invalid email or password"])
         }
     }
 
+    func accountView(request: Request) throws -> ResponseRepresentable {
+        guard let user = try? request.auth.user() else {
+            return Response(redirect: "/login")
+        }
+        let parameters = try Node(node: [
+            "authenticated": true,
+            "user": user.makeNode()
+        ])
+        return try drop.view.make("account", parameters)
+    }
+
     func logout(request: Request) throws -> ResponseRepresentable {
         try request.auth.logout()
-        return Response(redirect: "/")
+        return Response(redirect: "/login")
     }
 }
