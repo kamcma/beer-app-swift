@@ -6,7 +6,7 @@ struct M20170307185700InitialMigration: Preparation {
         try database.create(Brewery.entity) { breweries in
             breweries.id()
             breweries.string("name", optional: false)
-            breweries.string("slug", optional: false)
+            breweries.string("slug", optional: false, unique: true)
             breweries.int("country", optional: false)
         }
         try database.create(Beer.entity) { beers in
@@ -22,7 +22,7 @@ struct M20170307185700InitialMigration: Preparation {
             + "ON DELETE CASCADE ON UPDATE CASCADE;")
         try database.create(User.entity) {users in
             users.id()
-            users.string("email")
+            users.string("email", unique: true)
             users.string("password")
             users.string("first_name")
             users.string("last_name")
