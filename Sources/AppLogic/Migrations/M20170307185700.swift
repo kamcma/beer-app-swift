@@ -30,7 +30,7 @@ struct M20170307185700InitialMigration: Preparation {
         }
         try database.create(BeerRating.entity) { beerRatings in
             beerRatings.id()
-            beerRatings.int("stars", optional: false)
+            beerRatings.bool("thumb_up", optional: false)
             beerRatings.parent(User.self, optional: false)
             beerRatings.parent(Beer.self, optional: false)
         }
