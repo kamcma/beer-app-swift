@@ -5,9 +5,9 @@ final class BeerRating: Model {
     var id: Node?
     var exists: Bool = false
 
-    var thumbUp: Bool
     var userId: Node?
     var beerId: Node?
+    var thumbUp: Bool
 
     init(thumbUp: Bool, userId: Node? = nil, beerId: Node? = nil) {
         self.id = nil
@@ -18,17 +18,17 @@ final class BeerRating: Model {
 
     init(node: Node, in context: Context) throws {
         id = try node.extract("id")
-        thumbUp = try node.extract("thumb_up")
         userId = try node.extract("user_id")
         beerId = try node.extract("beer_id")
+        thumbUp = try node.extract("thumb_up")
     }
 
     func makeNode(context: Context) throws -> Node {
         return try Node(node: [
             "id": id,
-            "thumb_up": thumbUp,
             "user_id": userId,
-            "beer_id": beerId
+            "beer_id": beerId,
+            "thumb_up": thumbUp
         ])
     }
 

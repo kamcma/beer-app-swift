@@ -30,9 +30,9 @@ struct M20170307185700InitialMigration: Preparation {
         }
         try database.create(BeerRating.entity) { beerRatings in
             beerRatings.id()
-            beerRatings.bool("thumb_up", optional: false)
             beerRatings.parent(User.self, optional: false)
             beerRatings.parent(Beer.self, optional: false)
+            beerRatings.bool("thumb_up", optional: false)
         }
         try database.driver.raw("ALTER TABLE \"public\".\"beerratings\" "
             + "ADD FOREIGN KEY (\"user_id\") "
