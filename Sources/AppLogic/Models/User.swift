@@ -92,3 +92,9 @@ final class User: Auth.User {
 
     static func revert(_ database: Database) throws { }
 }
+
+extension User {
+    func beerRatings() throws -> Children<BeerRating> {
+        return children()
+    }
+}
