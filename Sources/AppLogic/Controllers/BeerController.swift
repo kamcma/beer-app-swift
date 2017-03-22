@@ -1,7 +1,7 @@
 import Vapor
 import HTTP
 
-final class BreweryController {
+final class BeerController {
     let drop: Droplet
 
     init(drop: Droplet) {

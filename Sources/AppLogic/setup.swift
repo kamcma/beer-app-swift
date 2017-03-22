@@ -25,16 +25,16 @@ public func setup(_ drop: Droplet) throws {
     drop.middleware.append(XFPMiddleware(enabled: drop.environment == .production))
     drop.middleware.append(AuthMiddleware(user: User.self) { value in
         return Cookie(
-            name: "beer-app",
+            name: "beerapp",
             value: value,
-            expires: Date().addingTimeInterval(60 * 60 * 5),
+            expires: Date().addingTimeInterval(60 * 60 * 1),
             secure: drop.environment == .production
         )
     })
 
     AdminController(drop: drop).addRoutes()
     UserController(drop: drop).addRoutes()
-    BreweryController(drop: drop).addRoutes()
+    BeerController(drop: drop).addRoutes()
 
     drop.get("/") { _ in
         return try drop.view.make("index")
