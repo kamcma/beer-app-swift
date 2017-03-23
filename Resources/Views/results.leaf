@@ -6,6 +6,7 @@
 
 #export("body") {
     <div class="container">
-        Search results
+        Search results:
+        <p>#(query)</p>
     </div>
 }

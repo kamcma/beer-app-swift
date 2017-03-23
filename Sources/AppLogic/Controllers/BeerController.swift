@@ -37,6 +37,12 @@ final class BeerController {
     }
 
     func resultsView(request: Request) throws -> ResponseRepresentable {
-        return try drop.view.make("results")
+        guard let query = request.query?["query"]?.string else {
+            return try drop.view.make("results")
+        }
+
+        return try drop.view.make("results", [
+            "query": query
+        ])
     }
 }
