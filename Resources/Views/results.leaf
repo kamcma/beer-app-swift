@@ -1,0 +1,11 @@
+#extend("base")
+
+#export("head") {
+    <title>Results</title>
+}
+
+#export("body") {
+    <div class="container">
+        Search results
+    </div>
+}

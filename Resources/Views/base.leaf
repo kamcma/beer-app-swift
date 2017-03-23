@@ -9,8 +9,9 @@
         <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <a class="navbar-brand" href="/">Beer Rate</a>
-                <form class="navbar-form navbar-right">
-                    <input class="form-control" type="text" placeholder="Beer ..." />
+                <p class="navbar-text"><a href="/logout">Logout</a></p>
+                <form class="navbar-form navbar-right" method="get" action="/results">
+                    <input class="form-control" type="text" name="query" placeholder="Beer ..." />
                     <button class="btn btn-secondary" type="submit">Search</button>
                 </form>
             </div>

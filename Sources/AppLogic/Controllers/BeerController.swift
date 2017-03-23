@@ -11,6 +11,7 @@ final class BeerController {
     func addRoutes() {
         drop.get(String.self, handler: breweryView)
         drop.get(String.self, String.self, handler: beerView)
+        drop.get("results", handler: resultsView)
     }
 
     func breweryView(request: Request, brewerySlug: String) throws -> ResponseRepresentable {
@@ -33,5 +34,9 @@ final class BeerController {
             "brewerySlug": brewery.slug,
             "beer": beer.name
         ])
+    }
+
+    func resultsView(request: Request) throws -> ResponseRepresentable {
+        return try drop.view.make("results")
     }
 }
