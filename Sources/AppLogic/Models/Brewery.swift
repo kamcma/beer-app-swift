@@ -8,9 +8,9 @@ final class Brewery: Model {
 
     var name: String
     var slug: String
-    var country: Country
+    var country: Country?
 
-    init(name: String, slug: String, country: Country) {
+    init(name: String, slug: String, country: Country? = nil) {
         self.id = nil
         self.name = name
         self.slug = slug.lowercased()
@@ -21,7 +21,7 @@ final class Brewery: Model {
         id = try node.extract("id")
         name = try node.extract("name")
         slug = try node.extract("slug")
-        country = try Country(rawValue: node.extract("country"))!
+        country = try Country(rawValue: node.extract("country"))
     }
 
     func makeNode(context: Context) throws -> Node {
@@ -29,7 +29,7 @@ final class Brewery: Model {
             "id": id,
             "name": name,
             "slug": slug,
-            "country": country.rawValue
+            "country": country?.rawValue
         ])
     }
 

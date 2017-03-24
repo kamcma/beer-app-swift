@@ -8,14 +8,16 @@ final class Beer: Model {
     var name: String
     var slug: String
     var breweryId: Node?
-    var abv: Double
+    var abv: Double?
+    var ibu: Int?
 
-    init(name: String, slug: String, breweryId: Node? = nil, abv: Double) {
+    init(name: String, slug: String, breweryId: Node? = nil, abv: Double? = nil, ibu: Int? = nil) {
         self.id = nil
         self.name = name
         self.slug = slug
         self.breweryId = breweryId
         self.abv = abv
+        self.ibu = ibu
     }
 
     init(node: Node, in context: Context) throws {
@@ -24,6 +26,7 @@ final class Beer: Model {
         slug = try node.extract("slug")
         breweryId = try node.extract("brewery_id")
         abv = try node.extract("abv")
+        ibu = try node.extract("ibu")
     }
 
     func makeNode(context: Context) throws -> Node {
@@ -32,7 +35,8 @@ final class Beer: Model {
             "name": name,
             "slug": slug,
             "brewery_id": breweryId,
-            "abv": abv
+            "abv": abv,
+            "ibu": ibu
         ])
     }
 
