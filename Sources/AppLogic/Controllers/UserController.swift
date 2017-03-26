@@ -65,7 +65,7 @@ final class UserController {
     }
 
     func accountView(request: Request) throws -> ResponseRepresentable {
-        guard let user = try? request.auth.user() else {
+        guard let user = try request.auth.user() as? User else {
             return Response(redirect: "/login")
         }
         let parameters = try Node(node: [
