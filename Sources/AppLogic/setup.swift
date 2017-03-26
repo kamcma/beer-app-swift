@@ -23,11 +23,11 @@ public func setup(_ drop: Droplet) throws {
     drop.commands.append(Seed(drop: drop))
 
     drop.middleware.append(XFPMiddleware(enabled: drop.environment == .production))
-    drop.middleware.append(AuthMiddleware(user: User.self) { value in
+    drop.middleware.append(AuthMiddleware(user: User.self, cookieName: "optional-parameter-but-works") { value in
         return Cookie(
-            name: "beerapp",
+            name: "required-but-ultimately-overridden-parameter",
             value: value,
-            expires: Date().addingTimeInterval(60 * 60 * 1),
+            expires: Date().addingTimeInterval(60 * 60 * 1), // adjusting this value works
             secure: drop.environment == .production
         )
     })
@@ -35,6 +35,7 @@ public func setup(_ drop: Droplet) throws {
     AdminController(drop: drop).addRoutes()
     UserController(drop: drop).addRoutes()
     BeerController(drop: drop).addRoutes()
+    SubmitController(drop: drop).addRoutes()
 
     drop.get("/") { _ in
         return try drop.view.make("index")

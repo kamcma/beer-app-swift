@@ -1,0 +1,34 @@
+#extend("base")
+
+#export("head") {
+    <title>Submit Brewery</title>
+}
+
+#export("body") {
+    <div class="container">
+        <form action="/submit/brewery" method="post">
+            <fieldset>
+                <div class="form-group">
+                    <input class="form-control" name="name" type="text" placeholder="Name" />
+                </div>
+                <div class="form-group">
+                    <select name="country">
+                        <option value="840">United States</option>
+                        <option value="76">Brazil</option>
+                        <option value="156">China</option>
+                        <option value="276">Germany</option>
+                        <option value="392">Japan</option>
+                        <option value="484">Mexico</option>
+                        <option value="616">Poland</option>
+                        <option value="643">Russia</option>
+                        <option value="724">Spain</option>
+                        <option value="826">United Kingdom</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input class="btn btn-default" type="submit" value="Submit" />
+                </div>
+            </fieldset>
+        </form>
+    </div>
+}
