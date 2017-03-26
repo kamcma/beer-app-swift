@@ -8,6 +8,7 @@ struct M20170307185700InitialMigration: Preparation {
             breweries.string("name", length: 255)
             breweries.string("slug", length: 255, unique: true)
             breweries.int("country", optional: true)
+            breweries.bool("active")
         }
         try database.create(Beer.entity) { beers in
             beers.id()
@@ -16,6 +17,7 @@ struct M20170307185700InitialMigration: Preparation {
             beers.parent(Brewery.self)
             beers.double("abv", optional: true)
             beers.int("ibu", optional: true)
+            beers.bool("active")
         }
         try database.driver.raw("ALTER TABLE \"public\".\"beers\" "
             + "ADD FOREIGN KEY (\"brewery_id\") "
