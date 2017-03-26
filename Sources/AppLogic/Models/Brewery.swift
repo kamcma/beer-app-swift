@@ -21,7 +21,9 @@ final class Brewery: Model {
         id = try node.extract("id")
         name = try node.extract("name")
         slug = try node.extract("slug")
-        country = try Country(rawValue: node.extract("country"))
+        if let countryInt: Int = try node.extract("country") {
+            country = Country(rawValue: countryInt)
+        }
     }
 
     func makeNode(context: Context) throws -> Node {
