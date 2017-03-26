@@ -64,7 +64,9 @@ final class SubmitController {
             return try drop.view.make("submit/beer")
         }
 
-        var beer = Beer(name: name, slug: "temp", brewery: brewery, active: user.admin)
+        let abv = request.formURLEncoded?["abv"]?.double,
+            ibu = request.formURLEncoded?["ibu"]?.int
+        var beer = Beer(name: name, slug: "temp", brewery: brewery, abv: abv, ibu: ibu, active: user.admin)
         try beer.save()
 
         return Response(redirect: "/submit/beer")
