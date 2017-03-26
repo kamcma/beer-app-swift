@@ -26,6 +26,9 @@ final class Seed: Command {
             Brewery(name: "Stone Brewing Company", slug: "stone", country: .unitedStates),
             Brewery(name: "Ballast Point Brewing Company", slug: "ballast-point", country: .unitedStates)
         ]
+        for brewery in seedBreweries {
+            brewery.active = true
+        }
         try database?.seed(seedBreweries)
 
         console.print("Seeded the database.")
