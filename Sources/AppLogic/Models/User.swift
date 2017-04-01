@@ -28,7 +28,7 @@ final class User: Auth.User {
         password = try node.extract("password") as String
         firstName = try node.extract("first_name") as String
         lastName = try node.extract("last_name") as String
-        admin = try node.extract("admin") as Bool ?? false
+        admin = try node.extract("admin") as Bool
     }
 
     func makeNode(context: Context) throws -> Node {
