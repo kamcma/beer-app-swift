@@ -18,15 +18,12 @@ final class SubmitController {
     }
 
     func submitBreweryView(request: Request) throws -> ResponseRepresentable {
-        guard let user = try request.auth.user() as? User else {
-            return Response(redirect: "/login")
-        }
         return try drop.view.make("submit_brewery")
     }
 
     func submitBrewery(request: Request) throws -> ResponseRepresentable {
         guard let user = try request.auth.user() as? User else {
-            return Response(redirect: "/login")
+            throw Abort.badRequest
         }
 
         guard let name = request.formURLEncoded?["name"]?.string,
@@ -43,9 +40,6 @@ final class SubmitController {
     }
 
     func submitBeerView(request: Request) throws -> ResponseRepresentable {
-        guard let user = try request.auth.user() as? User else {
-            return Response(redirect: "/login")
-        }
         let breweries = try Brewery.query().filter("active", .equals, true).sort("name", .ascending).all()
 
         return try drop.view.make("submit_beer", [
@@ -55,7 +49,7 @@ final class SubmitController {
 
     func submitBeer(request: Request) throws -> ResponseRepresentable {
         guard let user = try request.auth.user() as? User else {
-            return Response(redirect: "/login")
+            throw Abort.badRequest
         }
 
         guard let name = request.formURLEncoded?["name"]?.string,

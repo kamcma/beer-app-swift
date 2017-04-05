@@ -40,7 +40,7 @@ final class UserController {
         let credentials = UsernamePassword(username: email, password: password)
 
         do {
-            try _ = User.register(credentials: credentials, firstName: firstName, lastName: lastName)
+            try User.register(credentials: credentials, firstName: firstName, lastName: lastName)
             try request.auth.login(credentials)
             return Response(redirect: "/account")
         } catch {
@@ -66,8 +66,9 @@ final class UserController {
 
     func accountView(request: Request) throws -> ResponseRepresentable {
         guard let user = try request.auth.user() as? User else {
-            return Response(redirect: "/login")
+            throw Abort.badRequest
         }
+
         let parameters = try Node(node: [
             "authenticated": true,
             "user": user.makeNode()
